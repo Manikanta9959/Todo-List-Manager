@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <style>
+        * {
+            padding: 5px;
+            margin-bottom: 5px;
+        }
+        .task-done {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12" style="background-color:grey; height:100vh">
+                <div class="row">
+                    <div class="col-12" style="text-align:center; background:rgb(158, 119, 230); color:white"> My Tasks
+                    </div>
+
+                    <div class="col-8">
+
+                        <input type="text" id="add" placeholder="Add a Task"
+                            style="outline:none; width:100%; margin-left: 0px;"></input>
+                    </div>
+                    <div class="col-4">
+                        <button onclick="add()" style="background-color: rgb(41, 29, 211);"> Add</button>
+
+                    </div>
+                    <div class="col-12" id="tasks"></div>
+                    <hr style="background-color: blue; line-height: 5px; width:100%;margin-top: 150px;">
+
+                    <div class="col-12" id="complete"></div>
+
+
+                </div>
+            </div>
+        </div>
+        <script>
+            function add() {
+                if (document.getElementById("add").value) {
+                    addItemToTasks(document.getElementById("add").value);
+                    document.getElementById("add").value = ""
+                }
+            }
+
+            function addItemToTasks(taskText) {
+                var y = document.getElementById("tasks");
+                var id = Math.random() + "";
+                y.insertAdjacentHTML('beforebegin', "<div class='col-12' id='" + id + "'><input type='radio' onclick='removeTask(" + id + ")' id='check'></input>   <span class='task-pending'>" + taskText + "</span></div>");
+            }
+
+            function reAddTask(id) {
+                var ele = document.getElementById(id).outerHTML;
+                ele = ele.replace("reAddTask", "removeTask")
+                ele = ele.replace("task-done", "task-pending")
+                var tasks = document.getElementById("tasks");
+                document.getElementById(id).remove();
+                tasks.insertAdjacentHTML("beforebegin", ele);
+            }
+
+            function removeTask(id) {
+                var ele = document.getElementById(id).outerHTML;
+                ele = ele.replace("removeTask", "reAddTask");
+                ele = ele.replace("task-pending", "task-done")
+                var completed = document.getElementById("complete");
+                document.getElementById(id).remove();
+                completed.insertAdjacentHTML("beforebegin", ele);
+            }
+
+
+        </script>
+</body>
+
+</html>
